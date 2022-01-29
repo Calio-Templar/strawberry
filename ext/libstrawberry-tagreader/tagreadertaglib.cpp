@@ -195,11 +195,7 @@ void TagReaderTagLib::ReadFile(const QString &filename, spb::tagreader::SongMeta
   song->set_url(url.constData(), url.size());
   song->set_filesize(fileinfo.size());
   song->set_mtime(fileinfo.lastModified().isValid() ? fileinfo.lastModified().toSecsSinceEpoch() : 0);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
   song->set_ctime(fileinfo.birthTime().isValid() ? fileinfo.birthTime().toSecsSinceEpoch() : fileinfo.lastModified().isValid() ? fileinfo.lastModified().toSecsSinceEpoch() : 0);
-#else
-  song->set_ctime(fileinfo.created().isValid() ? fileinfo.created().toSecsSinceEpoch() : fileinfo.lastModified().isValid() ? fileinfo.lastModified().toSecsSinceEpoch() : 0);
-#endif
   song->set_lastseen(QDateTime::currentDateTime().toSecsSinceEpoch());
 
   std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));

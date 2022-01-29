@@ -66,15 +66,7 @@ QStringList ImageUtils::SupportedImageFormats() {
 
 QList<QByteArray> ImageUtils::ImageFormatsForMimeType(const QByteArray &mimetype) {
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
   return QImageReader::imageFormatsForMimeType(mimetype);
-#else
-  if (mimetype == "image/bmp") return QList<QByteArray>() << "BMP";
-  else if (mimetype == "image/gif") return QList<QByteArray>() << "GIF";
-  else if (mimetype == "image/jpeg") return QList<QByteArray>() << "JPG";
-  else if (mimetype == "image/png") return QList<QByteArray>() << "PNG";
-  else return QList<QByteArray>();
-#endif
 
 }
 

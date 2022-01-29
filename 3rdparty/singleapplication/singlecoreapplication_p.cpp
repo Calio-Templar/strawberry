@@ -55,11 +55,7 @@
 #include <QLocalSocket>
 #include <QDir>
 #include <QElapsedTimer>
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-#  include <QRandomGenerator>
-#else
-#  include <QDateTime>
-#endif
+#include <QRandomGenerator>
 
 #include "singlecoreapplication.h"
 #include "singlecoreapplication_p.h"
@@ -114,11 +110,7 @@ QString SingleCoreApplicationPrivate::getUsername() {
   }
 #endif
   if (username.isEmpty()) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     username = qEnvironmentVariable("USER");
-#else
-    username = QString::fromLocal8Bit(qgetenv("USER"));
-#endif
   }
   return username;
 #endif
@@ -130,11 +122,7 @@ QString SingleCoreApplicationPrivate::getUsername() {
   if (GetUserNameW(username, &usernameLength)) {
     return QString::fromWCharArray(username);
   }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
   return qEnvironmentVariable("USERNAME");
-#else
-  return QString::fromLocal8Bit(qgetenv("USERNAME"));
-#endif
 #endif
 
 }
@@ -461,11 +449,6 @@ void SingleCoreApplicationPrivate::slotClientConnectionClosed(QLocalSocket *clos
 
 void SingleCoreApplicationPrivate::randomSleep() {
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
   QThread::msleep(QRandomGenerator::global()->bounded(8U, 18U));
-#else
-  qsrand(QDateTime::currentMSecsSinceEpoch() % std::numeric_limits<uint>::max());
-  QThread::msleep(8 + static_cast<unsigned long>(static_cast<float>(qrand()) / RAND_MAX * 10));
-#endif
 
 }
